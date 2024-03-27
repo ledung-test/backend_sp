@@ -12,11 +12,14 @@ import lombok.experimental.FieldDefaults;
 public class LectureResponse {
 
     Integer id;
+
     String name;
+
     String video_url;
 
     String document_url;
 
     Integer position;
+
     boolean activated;
 }

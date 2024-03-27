@@ -1,4 +1,4 @@
-package com.example.backend_sp.service;
+package com.example.backend_sp.service.section;
 
 import com.example.backend_sp.entity.Section;
 import com.example.backend_sp.request.SectionRequest;

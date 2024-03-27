@@ -1,11 +1,11 @@
-package com.example.backend_sp.service.impl;
+package com.example.backend_sp.service.section;
 
 import com.example.backend_sp.entity.Course;
 import com.example.backend_sp.entity.Section;
 import com.example.backend_sp.repository.CourseRepository;
 import com.example.backend_sp.repository.SectionRepository;
 import com.example.backend_sp.request.SectionRequest;
-import com.example.backend_sp.service.SectionService;
+import com.example.backend_sp.service.section.SectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

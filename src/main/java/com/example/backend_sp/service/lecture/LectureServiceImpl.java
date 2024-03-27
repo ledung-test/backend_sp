@@ -1,11 +1,10 @@
-package com.example.backend_sp.service.impl;
+package com.example.backend_sp.service.lecture;
 
 import com.example.backend_sp.entity.Lecture;
 import com.example.backend_sp.entity.Section;
 import com.example.backend_sp.repository.LectureRepository;
 import com.example.backend_sp.repository.SectionRepository;
 import com.example.backend_sp.request.LectureRequest;
-import com.example.backend_sp.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

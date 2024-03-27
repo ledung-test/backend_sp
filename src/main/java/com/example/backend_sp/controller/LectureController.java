@@ -3,7 +3,7 @@ package com.example.backend_sp.controller;
 import com.example.backend_sp.entity.Lecture;
 import com.example.backend_sp.request.LectureRequest;
 import com.example.backend_sp.response.ResponseObject;
-import com.example.backend_sp.service.LectureService;
+import com.example.backend_sp.service.lecture.LectureService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class LectureController {
 
     @PostMapping()
     public ResponseEntity<ResponseObject> insertLecture(
-            @RequestBody @Valid LectureRequest request){
+            @RequestBody @Valid LectureRequest request) {
         Lecture lecture = service.save(request);
         return ResponseEntity.ok(
                 ResponseObject.builder()
@@ -33,7 +33,7 @@ public class LectureController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateLecture(
             @PathVariable Integer id,
-            @RequestBody @Valid LectureRequest request){
+            @RequestBody @Valid LectureRequest request) {
         Lecture lecture = service.update(id, request);
         return ResponseEntity.ok(
                 ResponseObject.builder()

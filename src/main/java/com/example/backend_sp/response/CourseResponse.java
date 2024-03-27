@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,6 +14,8 @@ import java.util.List;
 public class CourseResponse {
     Integer id;
     String name;
+    String slug;
+    String intro;
     String lesson_content;
     String requirements;
     String description;
@@ -24,6 +25,4 @@ public class CourseResponse {
     double rating;
     boolean activated;
     CategoryResponse category;
-    List<SectionResponse> sections;
-
 }

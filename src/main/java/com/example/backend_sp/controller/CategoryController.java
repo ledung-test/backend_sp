@@ -3,8 +3,9 @@ package com.example.backend_sp.controller;
 
 import com.example.backend_sp.entity.Category;
 import com.example.backend_sp.request.CategoryRequest;
+import com.example.backend_sp.response.CategoryResponse;
 import com.example.backend_sp.response.ResponseObject;
-import com.example.backend_sp.service.CategoryService;
+import com.example.backend_sp.service.category.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoryController {
     private final CategoryService service;
 
     //GET: Lấy danh sách danh mục
     @GetMapping()
     public ResponseEntity<ResponseObject> getAllCategories(){
-        List<Category> categories = service.findAllByActivatedTrue();
+        List<CategoryResponse> categories = service.findAllByActivatedTrue();
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Lấy danh sách danh mục thành công.")
@@ -65,4 +67,5 @@ public class CategoryController {
                         .status(HttpStatus.OK)
                         .build());
     }
+
 }

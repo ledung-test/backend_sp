@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     boolean existsByNameAndActivatedTrue(String name);
+
     List<Category> findAllByActivatedTrue();
 }

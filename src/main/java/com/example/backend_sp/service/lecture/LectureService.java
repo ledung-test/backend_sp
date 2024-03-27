@@ -1,4 +1,4 @@
-package com.example.backend_sp.service;
+package com.example.backend_sp.service.lecture;
 
 import com.example.backend_sp.entity.Lecture;
 import com.example.backend_sp.request.LectureRequest;

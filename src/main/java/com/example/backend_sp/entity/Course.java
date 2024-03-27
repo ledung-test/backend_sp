@@ -22,6 +22,8 @@ public class Course extends BaseEntity{
 
     String slug;
 
+    String intro;
+
     @Column(columnDefinition = "TEXT")
     String lesson_content;
 
