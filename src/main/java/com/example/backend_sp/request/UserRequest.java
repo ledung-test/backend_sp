@@ -14,4 +14,6 @@ public class UserRequest {
     String email;
     String password;
     String confPassword;
+
+    boolean activated;
 }

@@ -1,11 +1,12 @@
 package com.example.backend_sp.response;
 
+import com.example.backend_sp.entity.enums.OrderStatus;
+import com.example.backend_sp.entity.enums.PaymentMethod;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,13 +17,16 @@ import java.util.List;
 public class OrderResponse {
     Integer id;
 
-    Integer user_id;
+    UserResponse user;
 
-    Date order_date;
+    OrderStatus orderStatus;
 
-    String status;
+    PaymentMethod paymentMethod;
 
     BigDecimal totalMoney;
 
-    List<OrderDetailResponse> orderDetails;
+    Date createdAt;
+
+    Date updatedAt;
+
 }

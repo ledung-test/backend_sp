@@ -1,5 +1,7 @@
 package com.example.backend_sp.entity;
 
+import com.example.backend_sp.entity.enums.OrderStatus;
+import com.example.backend_sp.entity.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,20 +17,19 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "orders")
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
     User user;
+    @Enumerated(EnumType.STRING)
+    OrderStatus orderStatus;
 
-    Date orderDate;
-
-    String status;
-
-    @Column(precision = 10, scale = 2) //DECIMAL(10,2)
+    @Column(precision = 10, scale = 2)
     BigDecimal totalMoney;
 
-    String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    PaymentMethod paymentMethod;
 
     Date paymentDate;
 }

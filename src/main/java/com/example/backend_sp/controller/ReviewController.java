@@ -19,10 +19,10 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService service;
 
-    //GET: Lấy danh sách review của khóa học theo Course ID
+
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseObject> getReviewByCourseId(@PathVariable Integer id) {
-        List<ReviewResponse> reviews = service.getReviewByCourseId(id);
+    public ResponseEntity<ResponseObject> findAllByCourseId(@PathVariable Integer id) {
+        List<ReviewResponse> reviews = service.findAllByCourseId(id);
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Lấy danh sách đánh giá thành công")
                 .status(HttpStatus.OK)
@@ -30,30 +30,29 @@ public class ReviewController {
                 .build());
     }
 
-    //POST: Thêm mới một review vào khóa học
+
     @PostMapping()
-    public ResponseEntity<ResponseObject> insertReview(@RequestBody @Valid ReviewRequest request) {
-        service.save(request);
+    public ResponseEntity<ResponseObject> create(@RequestBody @Valid ReviewRequest request) {
+        service.create(request);
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Đánh giá thành công thành công")
                 .status(HttpStatus.CREATED)
                 .build());
     }
 
-    //PUT: Cập nhật review
+
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseObject> updateReview(@RequestBody @Valid ReviewRequest request, @PathVariable Integer id) {
-        service.updateReview(request, id);
+    public ResponseEntity<ResponseObject> update(@RequestBody @Valid ReviewRequest request, @PathVariable Integer id) {
+        service.update(request, id);
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Cập nhật đánh giá thành công thành công")
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.OK)
                 .build());
     }
 
-    //DELETE: Xóa review
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseObject> deleteReview(@PathVariable Integer id) {
-        service.deleteById(id);
+    public ResponseEntity<ResponseObject> delete(@PathVariable Integer id) {
+        service.delete(id);
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Xóa review thành công")
                 .status(HttpStatus.OK)

@@ -20,9 +20,13 @@ public class CourseResponse {
     String requirements;
     String description;
     BigDecimal price;
+    BigDecimal discount;
     String url_img;
+    String targets;
     int totalStudents;
     double rating;
     boolean activated;
     CategoryResponse category;
+
+    Integer discount_id;
 }

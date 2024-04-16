@@ -8,7 +8,9 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    boolean existsByNameAndActivatedTrue(String name);
+    boolean existsByName(String name);
 
     List<Category> findAllByActivatedTrue();
+
+    List<Category> findAllByOrderByCreatedAtDesc();
 }

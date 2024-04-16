@@ -2,12 +2,14 @@ package com.example.backend_sp.service.favorite;
 
 import com.example.backend_sp.entity.*;
 import com.example.backend_sp.mapper.CourseMapper;
+import com.example.backend_sp.repository.CourseDiscountRepository;
 import com.example.backend_sp.repository.CourseRepository;
 import com.example.backend_sp.repository.FavoriteRepository;
 import com.example.backend_sp.repository.UserRepository;
 import com.example.backend_sp.request.FavoriteRequest;
 import com.example.backend_sp.response.CourseResponse;
 import com.example.backend_sp.response.FavoriteResponse;
+import com.example.backend_sp.utils.DiscountUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
+    private final CourseDiscountRepository courseDiscountRepository;
+
     //Lấy danh sách yêu thích theo User ID
     @Override
     public List<FavoriteResponse> getFavoriteByUserId(Integer id) {
@@ -30,8 +34,10 @@ public class FavoriteServiceImpl implements FavoriteService {
         List<FavoriteResponse> favoriteResponseList = new ArrayList<>();
         if (!favorites.isEmpty()) {
             for (Favorite favorite : favorites) {
+                Course course = favorite.getCourse();
                 CourseResponse courseResponse = new CourseResponse();
-                CourseMapper.mapCourseToCourseResponse(favorite.getCourse(), courseResponse);
+                DiscountUtils.setDiscountToCourseResponse(courseDiscountRepository, course, courseResponse);
+                CourseMapper.mapCourseToCourseResponse(course, courseResponse);
                 FavoriteResponse favoriteResponse = FavoriteResponse.builder()
                         .id(favorite.getId())
                         .course(courseResponse)

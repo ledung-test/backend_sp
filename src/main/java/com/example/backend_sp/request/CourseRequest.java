@@ -4,8 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,7 +19,7 @@ public class CourseRequest {
     @Size(min = 3, max = 255, message = "Tên khóa học phải dài từ 3 đến 255 ký tự")
     String name;
 
-    String lesson_content;
+    String intro;
 
     String requirements;
 
@@ -25,9 +27,13 @@ public class CourseRequest {
 
     BigDecimal price;
 
-    String url_img;
+    MultipartFile file;
 
     boolean activated;
 
     Integer category_id;
+
+    Integer discount_id;
+
+    String targets;
 }

@@ -15,4 +15,6 @@ public class OrderDetailResponse {
     Integer id;
     CourseResponse course;
     BigDecimal price;
+
+    BigDecimal discount;
 }

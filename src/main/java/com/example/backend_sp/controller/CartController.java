@@ -2,6 +2,7 @@ package com.example.backend_sp.controller;
 
 import com.example.backend_sp.request.CartItemRequest;
 import com.example.backend_sp.response.CartItemResponse;
+import com.example.backend_sp.response.CartResponse;
 import com.example.backend_sp.response.ResponseObject;
 import com.example.backend_sp.service.cart.CartService;
 import jakarta.validation.Valid;
@@ -23,11 +24,11 @@ public class CartController {
     //GET: Lấy danh sách khóa học trong giỏ hàng theo User ID
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getCoursesFromCart(@PathVariable Integer id) {
-        List<CartItemResponse> cartItemResponseList = service.getCoursesFromCart(id);
+        CartResponse cart = service.getCoursesFromCart(id);
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Lấy giỏ hàng thành công")
                 .status(HttpStatus.OK)
-                .data(cartItemResponseList)
+                .data(cart)
                 .build());
     }
 

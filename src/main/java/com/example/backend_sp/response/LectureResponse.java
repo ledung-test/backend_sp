@@ -22,4 +22,6 @@ public class LectureResponse {
     Integer position;
 
     boolean activated;
+
+    boolean isPreview;
 }

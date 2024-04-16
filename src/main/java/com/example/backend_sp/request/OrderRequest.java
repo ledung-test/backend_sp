@@ -3,8 +3,7 @@ package com.example.backend_sp.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -14,7 +13,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderRequest {
     Integer user_id;
-    BigDecimal totalMoney;
+    String orderStatus;
     String paymentMethod;
-    List<OrderDetailRequest> orderDetails;
+    Set<Integer> listCourseId;
 }

@@ -5,13 +5,13 @@ import com.example.backend_sp.request.CourseRequest;
 import com.example.backend_sp.response.CourseResponse;
 import com.example.backend_sp.response.ResponseObject;
 import com.example.backend_sp.response.SectionResponse;
-import com.example.backend_sp.response.TargetResponse;
 import com.example.backend_sp.service.course.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -22,6 +22,42 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CourseController {
     private final CourseService service;
+
+    @GetMapping("/all")
+    public ResponseEntity<ResponseObject> getAllCourses() {
+        List<CourseResponse> courses = service.findAll();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Lấy khóa học thành công.")
+                        .status(HttpStatus.OK)
+                        .data(courses)
+                        .build());
+    }
+
+    //GET: Lấy tất cả khóa học Activated = true;
+    @GetMapping("/activated")
+    public ResponseEntity<ResponseObject> getAllCoursesByActivatedTrue() {
+        List<CourseResponse> courseResponse = service.findAllByActivatedTrue();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Lấy khóa học thành công.")
+                        .status(HttpStatus.OK)
+                        .data(courseResponse)
+                        .build());
+    }
+
+    //GET: Lấy chi tiết khóa học theo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getCourseByIdAndSlug(
+            @PathVariable Integer id) {
+        CourseResponse courseResponse = service.getCourseById(id);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Lấy khóa học thành công.")
+                        .status(HttpStatus.OK)
+                        .data(courseResponse)
+                        .build());
+    }
 
     //GET: Lấy chi tiết khóa học theo ID và Slug
     @GetMapping("/{id}/{slug}")
@@ -38,11 +74,10 @@ public class CourseController {
     }
 
     //GET: Lấy danh sách Sections theo Course ID và Slug
-    @GetMapping("/{id}/{slug}/sections")
-    public ResponseEntity<ResponseObject> getSectionByCourseByIdAndSlug(
-            @PathVariable Integer id,
-            @PathVariable String slug) {
-        List<SectionResponse> sectionResponseList = service.findAllSectionByCourseIdAndSlug(id, slug);
+    @GetMapping("/{id}/sections")
+    public ResponseEntity<ResponseObject> getSectionByCourseById(
+            @PathVariable Integer id) {
+        List<SectionResponse> sectionResponseList = service.findAllSectionByCourseId(id);
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Lấy danh sách chương khóa học thành công.")
@@ -60,6 +95,42 @@ public class CourseController {
             @RequestParam(value = "price", required = false) List<String> priceOptions
     ) {
         List<CourseResponse> courseResponseList = service.getCourseByFilter(minimumRating, sortBy, categoryIds, priceOptions);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Ok")
+                        .status(HttpStatus.OK)
+                        .data(courseResponseList)
+                        .build()
+        );
+    }
+
+    @GetMapping("/free")
+    public ResponseEntity<ResponseObject> getCoursesByPriceFree(){
+        List<CourseResponse> courseResponseList = service.getCoursesByPriceFree();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Ok")
+                        .status(HttpStatus.OK)
+                        .data(courseResponseList)
+                        .build()
+        );
+    }
+
+    @GetMapping("/discount")
+    public ResponseEntity<ResponseObject> getCoursesByDiscountNotNull(){
+        List<CourseResponse> courseResponseList = service.getCoursesByDiscountNotNull();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Ok")
+                        .status(HttpStatus.OK)
+                        .data(courseResponseList)
+                        .build()
+        );
+    }
+
+    @GetMapping("/rating")
+    public ResponseEntity<ResponseObject> getCoursesByRatingAndTotalStudentDesc(){
+        List<CourseResponse> courseResponseList = service.getCoursesByRatingAndTotalStudentDesc();
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Ok")
@@ -87,25 +158,13 @@ public class CourseController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateCourse(
             @PathVariable Integer id,
-            @RequestBody @Valid CourseRequest request) {
-        Course course = service.update(id, request);
+            @ModelAttribute CourseRequest request) {
+        CourseResponse course = service.update(id, request);
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Cập nhật khóa học thành công.")
                         .status(HttpStatus.OK)
                         .data(course)
-                        .build());
-    }
-
-    //Lấy danh sách mục tiêu khóa học theo Course ID
-    @GetMapping("/targets/{id}")
-    public ResponseEntity<ResponseObject> getTargetsByCourseId(@PathVariable Integer id) {
-        List<TargetResponse> targets = service.getTargetsByCourseId(id);
-        return ResponseEntity.ok(
-                ResponseObject.builder()
-                        .message("Tạo mới danh mục thành công.")
-                        .status(HttpStatus.CREATED)
-                        .data(targets)
                         .build());
     }
 }

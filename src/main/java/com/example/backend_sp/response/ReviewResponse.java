@@ -15,8 +15,8 @@ import java.util.Date;
 public class ReviewResponse {
     Integer id;
     String content;
-
     Integer rating;
     Date updatedAt;
+    Boolean isPublish;
     UserResponse user;
 }

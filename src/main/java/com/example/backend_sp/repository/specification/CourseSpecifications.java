@@ -1,4 +1,4 @@
-package com.example.backend_sp.repository;
+package com.example.backend_sp.repository.specification;
 
 import com.example.backend_sp.entity.Course;
 import jakarta.persistence.criteria.Predicate;

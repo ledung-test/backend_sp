@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,11 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, JpaSpe
 
     Optional<Course> findByIdAndSlug(Integer id, String slug);
 
-    Boolean existsCourseByIdAndSlug(Integer id, String slug);
+    Boolean existsCourseById(Integer id);
+
+    List<Course> findTop5ByPriceOrderByCreatedAtDesc(BigDecimal price);
+
+    List<Course> findTop5ByRatingGreaterThanEqualOrderByTotalStudentsDesc(double rating);
 
 
 }

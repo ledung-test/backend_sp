@@ -16,8 +16,6 @@ public class SectionRequest {
     @Size(min = 3, max = 255, message = "Tên chủ đề phải dài từ 3 đến 255 ký tự")
     String name;
 
-    Integer position;
-
     boolean activated;
 
     Integer course_id;

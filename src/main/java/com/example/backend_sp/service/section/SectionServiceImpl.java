@@ -1,78 +1,97 @@
 package com.example.backend_sp.service.section;
 
 import com.example.backend_sp.entity.Course;
+import com.example.backend_sp.entity.Lecture;
 import com.example.backend_sp.entity.Section;
 import com.example.backend_sp.repository.CourseRepository;
+import com.example.backend_sp.repository.LectureRepository;
 import com.example.backend_sp.repository.SectionRepository;
 import com.example.backend_sp.request.SectionRequest;
-import com.example.backend_sp.service.section.SectionService;
+import com.example.backend_sp.request.UpdatePositionRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SectionServiceImpl implements SectionService {
 
     private final SectionRepository repository;
 
     private final CourseRepository courseRepository;
 
-    @Override
-    public List<Section> findAll() {
-        List<Section> sections = repository.findAll();
-        if (sections.isEmpty()){
-            throw new RuntimeException("Danh sách chương trống.");
-        }
-        return sections;
-    }
-
-    @Override
-    public List<Section> findAllByActivatedTrue() {
-        List<Section> sections = repository.findAllByActivatedTrue();
-        if (sections.isEmpty()){
-            throw new RuntimeException("Danh sách chương trống.");
-        }
-        return sections;
-    }
+    private final LectureRepository lectureRepository;
 
     @Override
     public Section findById(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm chương của khóa học"));
+                .orElseThrow(() -> new RuntimeException("Chương không tồn tại"));
     }
 
     @Override
-    public void mapSectionRequestToSection(SectionRequest request, Section section) {
-        Optional<Course> optionalCourse = courseRepository.findById(request.getCourse_id());
-        if (optionalCourse.isPresent()){
-            section.setName(request.getName());
-            section.setPosition(request.getPosition());
-            section.setActivated(request.isActivated());
-            section.setCourse(optionalCourse.get());
-        }else {
-            throw new RuntimeException("Không tìm thấy khóa học");
-        }
+    public void create(SectionRequest request) {
+        Course course = courseRepository.findById(request.getCourse_id())
+                .orElseThrow(() -> new RuntimeException("Khóa học không tồn tại"));
+        int position = repository.countSectionByCourseId(course.getId());
+        Section section = Section.builder()
+                .name(request.getName())
+                .course(course)
+                .activated(request.isActivated())
+                .position(position + 1)
+                .build();
+        repository.save(section);
     }
 
     @Override
-    public Section save(SectionRequest request) {
-        Section section = new Section();
-        mapSectionRequestToSection(request, section);
-        return repository.save(section);
-    }
-
-    @Override
-    public Section update(Integer id, SectionRequest request) {
+    public void update(Integer id, SectionRequest request) {
         Section existingSection = findById(id);
-        mapSectionRequestToSection(request, existingSection);
-        return repository.save(existingSection);
+        existingSection.setName(request.getName());
+        existingSection.setActivated(request.isActivated());
+        List<Lecture> lectures = lectureRepository.findBySectionId(existingSection.getId());
+        if (!lectures.isEmpty()){
+            for (Lecture lecture: lectures) {
+                lecture.setActivated(request.isActivated());
+                lectureRepository.save(lecture);
+            }
+        }
+        repository.save(existingSection);
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void updatePosition(List<UpdatePositionRequest> request) {
+        if (!request.isEmpty()) {
+            for (UpdatePositionRequest newPosition : request) {
+                Section existingSection = findById(newPosition.getId());
+                existingSection.setPosition(newPosition.getNewPosition());
+                repository.save(existingSection);
+            }
+        }
 
     }
+
+    @Override
+    public void delete(Integer id) {
+        Section existingSection = findById(id);
+        Integer position = existingSection.getPosition();
+        Course course = existingSection.getCourse();
+        List<Lecture> lectures = lectureRepository.findBySectionId(existingSection.getId());
+        if (!lectures.isEmpty()) {
+            lectureRepository.deleteAll(lectures);
+        }
+        repository.delete(existingSection);
+        List<Section> sections = repository.findByCourseIdAndPositionGreaterThan(course.getId(), position);
+        if (!sections.isEmpty()) {
+            for (Section section : sections) {
+                section.setPosition(section.getPosition() - 1);
+                repository.save(section);
+            }
+        }
+
+
+    }
+
 }

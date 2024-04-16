@@ -21,7 +21,4 @@ public class Category extends BaseEntity {
     @Column(name = "is_activated")
     boolean activated;
 
-    @Column(name = "is_deleted")
-    boolean deleted;
-
 }

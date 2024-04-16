@@ -4,14 +4,13 @@ import com.example.backend_sp.entity.Course;
 import com.example.backend_sp.request.CourseRequest;
 import com.example.backend_sp.response.CourseResponse;
 import com.example.backend_sp.response.SectionResponse;
-import com.example.backend_sp.response.TargetResponse;
+
 
 import java.util.List;
-import java.util.Map;
 
 public interface CourseService {
 
-    List<Course> findAll();
+    List<CourseResponse> findAll();
 
     List<CourseResponse> findAllByActivatedTrue();
 
@@ -19,13 +18,20 @@ public interface CourseService {
 
     Course save(CourseRequest request);
 
-    Course update(Integer id, CourseRequest request);
+    CourseResponse update(Integer id, CourseRequest request);
+
+    CourseResponse getCourseById(Integer id);
 
     CourseResponse findByIdAndSlug(Integer id, String slug);
 
-    List<SectionResponse> findAllSectionByCourseIdAndSlug(Integer id, String slug);
+    List<SectionResponse> findAllSectionByCourseId(Integer id);
 
     List<CourseResponse> getCourseByFilter(Double minimumRating, String sortBy, List<Integer> categoryIds, List<String> priceOptions);
 
-    List<TargetResponse> getTargetsByCourseId(Integer courseId);
+    List<CourseResponse> getCoursesByPriceFree();
+
+    List<CourseResponse> getCoursesByRatingAndTotalStudentDesc();
+
+    List<CourseResponse> getCoursesByDiscountNotNull();
+
 }

@@ -24,8 +24,11 @@ public class OrderDetail extends BaseEntity{
     @JoinColumn(name = "course_id")
     Course course;
 
-    @Column(precision = 10, scale = 2) //DECIMAL(10,2)
+    @Column(precision = 10, scale = 2)
     BigDecimal price;
+
+    @Column(precision = 10, scale = 2)
+    BigDecimal discount;
 
 
 }

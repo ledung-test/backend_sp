@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "courses")
@@ -25,18 +26,17 @@ public class Course extends BaseEntity{
     String intro;
 
     @Column(columnDefinition = "TEXT")
-    String lesson_content;
-
-    @Column(columnDefinition = "TEXT")
     String requirements;
 
     @Column(columnDefinition = "TEXT")
     String description;
 
-    @Column(precision = 10, scale = 2) //DECIMAL(10,2)
+    @Column(precision = 10, scale = 2)
     BigDecimal price;
 
     String url_img;
+
+    String targets;
 
     int totalStudents;
 
@@ -48,5 +48,4 @@ public class Course extends BaseEntity{
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     Category category;
-
 }

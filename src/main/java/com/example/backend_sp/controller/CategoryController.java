@@ -1,7 +1,5 @@
 package com.example.backend_sp.controller;
 
-
-import com.example.backend_sp.entity.Category;
 import com.example.backend_sp.request.CategoryRequest;
 import com.example.backend_sp.response.CategoryResponse;
 import com.example.backend_sp.response.ResponseObject;
@@ -21,9 +19,19 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService service;
 
-    //GET: Lấy danh sách danh mục
     @GetMapping()
-    public ResponseEntity<ResponseObject> getAllCategories(){
+    public ResponseEntity<ResponseObject> findAllByOrderByCreatedAtDesc(){
+        List<CategoryResponse> categories = service.findAllByOrderByCreatedAtDesc();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Lấy danh sách danh mục thành công.")
+                        .status(HttpStatus.OK)
+                        .data(categories)
+                        .build());
+    }
+
+    @GetMapping("/activated")
+    public ResponseEntity<ResponseObject> findAllByActivatedTrue(){
         List<CategoryResponse> categories = service.findAllByActivatedTrue();
         return ResponseEntity.ok(
                 ResponseObject.builder()
@@ -32,40 +40,27 @@ public class CategoryController {
                         .data(categories)
                         .build());
     }
-    //POST: Tạo mới danh mục
+
     @PostMapping()
-    public ResponseEntity<ResponseObject> insertCategory(
+    public ResponseEntity<ResponseObject> createCategory(
             @RequestBody @Valid CategoryRequest request){
-        Category category = service.save(request);
+        service.create(request);
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Tạo mới danh mục thành công.")
                         .status(HttpStatus.CREATED)
-                        .data(category)
                         .build());
     }
-    //Put: Cập nhật danh mục
+
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateCategory(
             @PathVariable Integer id,
             @RequestBody @Valid CategoryRequest request){
-        Category category = service.update(id, request);
+        service.update(id, request);
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Cập nhật danh mục thành công.")
                         .status(HttpStatus.OK)
-                        .data(category)
                         .build());
     }
-    //DELETE: Xóa danh mục
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseObject> deleteCategory(@PathVariable Integer id){
-        service.deleteById(id);
-        return ResponseEntity.ok(
-                ResponseObject.builder()
-                        .message("Xóa danh mục thành công.")
-                        .status(HttpStatus.OK)
-                        .build());
-    }
-
 }

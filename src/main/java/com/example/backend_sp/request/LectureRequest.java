@@ -20,10 +20,9 @@ public class LectureRequest {
 
     String document_url;
 
-    Integer position;
-
     boolean activated;
 
+    boolean isPreview;
     Integer section_id;
 
 }

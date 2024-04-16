@@ -26,7 +26,10 @@ public class Lecture extends BaseEntity {
     @Column(name = "is_activated")
     boolean activated;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Column(name = "is_preview")
+    boolean isPreview;
+
+    @ManyToOne
     @JoinColumn(name = "section_id")
     Section section;
 }

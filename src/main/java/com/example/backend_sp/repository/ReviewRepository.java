@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    List<Review> findReviewByCourseId(Integer id);
+    List<Review> findAllByCourseId(Integer courseId);
 
-    Boolean existsReviewById(Integer id);
+    Integer countReviewsByCourseId(Integer id);
 }

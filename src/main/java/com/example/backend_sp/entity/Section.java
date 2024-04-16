@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "sections")
@@ -23,7 +24,7 @@ public class Section extends BaseEntity{
     @Column(name = "is_activated")
     boolean activated;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "course_id")
     Course course;
 

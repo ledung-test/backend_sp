@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
 
-    List<CartItem> findByCart_Id(Integer id);
+    List<CartItem> findByCartId(Integer id);
 
     Boolean existsCartItemById(Integer id);
 
-    Boolean existsCartItemByCart_IdAndCourse_Id(Integer cartId, Integer courseId);
+    Boolean existsCartItemByCartIdAndCourseId(Integer cartId, Integer courseId);
 }

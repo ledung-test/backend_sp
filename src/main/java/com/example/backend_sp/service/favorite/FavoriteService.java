@@ -10,6 +10,5 @@ public interface FavoriteService {
 
     List<FavoriteResponse> getFavoriteByUserId(Integer id);
     Favorite save(FavoriteRequest request);
-
     void deleteById(Integer id);
 }
